@@ -2,6 +2,9 @@ doctype html
 html
   head
     title= title
+    //- javascript
+    script(defer async src='/javascripts/index.js')
+    //- css
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     block content
