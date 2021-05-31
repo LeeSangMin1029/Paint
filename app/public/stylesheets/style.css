@@ -9,4 +9,5 @@ body {
   width: auto;
   height: auto;
   border: 1px black solid;
+  display: block;
 }
