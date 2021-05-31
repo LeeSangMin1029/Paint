@@ -10,26 +10,27 @@ class Canvas {
     this.x = 0;
     this.y = 0;
   }
-  init(width, height /*pen*/) {
+  init(width, height) {
     this.canvas.width = width;
     this.canvas.height = height;
-    // this.pen = pen;
     this.eventConnection();
   }
   startDrawing(e) {
     this.isMouseDown = true;
     [this.x, this.y] = [e.offsetX, e.offsetY];
+    this.drawLine(e);
   }
   drawLine(e) {
-    if (this.isMouseDown) {
-      const nx = e.offsetX;
-      const ny = e.offsetY;
-      this.context.beginPath();
-      this.context.moveTo(this.x, this.y);
-      this.context.lineTo(nx, ny);
-      this.context.stroke();
-      [this.x, this.y] = [nx, ny];
-    }
+    if (!this.isMouseDown) return;
+    const nx = e.offsetX;
+    const ny = e.offsetY;
+    this.context.lineCap = 'round';
+    this.context.beginPath();
+    this.context.moveTo(this.x, this.y);
+    this.context.lineTo(nx, ny);
+    this.context.stroke();
+    this.x = nx;
+    this.y = ny;
   }
   stopDrawing() {
     this.isMouseDown = false;
@@ -42,6 +43,13 @@ class Canvas {
     this.canvas.addEventListener('mouseout', () => this.stopDrawing());
   }
 }
-const pen = new Pen();
 const canvas = new Canvas();
 canvas.init(600, 400);
+
+const paintPen = document.querySelector('.line-range');
+const penValue = document.querySelector('.range-value');
+paintPen.addEventListener('input', (e) => {
+  const width = e.target.value;
+  canvas.context.lineWidth = width;
+  penValue.innerHTML = width;
+});
