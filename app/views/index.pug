@@ -1,4 +1,7 @@
 extends layout
 
 block content
+  input.line-range(type="range" min="1" max="72" value="1")
+  label.range-value=1
+  | px
   canvas#paint
